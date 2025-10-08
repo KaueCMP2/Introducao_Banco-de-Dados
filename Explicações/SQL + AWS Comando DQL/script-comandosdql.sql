@@ -66,91 +66,96 @@ INSERT INTO Emprestimo VALUES --id_emprestimo, id_livro, id_leitor, data_empr, d
 GO
 
 
---SELECT * FROM Emprestimo as e INNER JOIN Leitor as l
---ON e.id_Livro = l.id_Leitor;
-
---SELECT * FROM Autor as a LEFT JOIN Livro as li
---ON a.id_Autor = id_Livro
-
--- SELECT * FROM Leitor as le RIGHT JOIN Livro as li
--- ON le.id_Leitor = li.id_Autor;
-
---SELECT * FROM Leitor as le FULL JOIN Emprestimo as em
---ON le.id_Leitor = em.id_Emprestimo;
-
---SELECT * FROM Leitor as le CROSS JOIN Emprestimo as em
-
-
+-- COUNT: Contar o total de registros
+SELECT * FROM Leitor;
 
 SELECT COUNT(*) AS QntLeitore
 FROM Leitor;
 
 SELECT * FROM Emprestimo;
 
--- COUNT + GROUP BY
--- (Função agragada precisa do GROUP BY para mais atributos)
+-- COUNT: Contar o total de registros
+
+SELECT * FROM Leitor;
+
+SELECT COUNT(*) AS QtdLeitores
+FROM Leitor;
+
+SELECT * FROM Emprestimo;
+
+-- COUNT + GROUP BY 
+-- (função agregada precisa do GROUP BY para mais atributos)
+
 SELECT l.nome, COUNT(e.id_emprestimo) AS QtdEmprestimo
 FROM Emprestimo e
 JOIN Leitor l ON l.id_Leitor = e.id_Leitor
 GROUP BY l.nome
 
+
 -- MIN / MAX
-SELECT ano FROM Livro
+SELECT Ano FROM Livro;
 
-SELECT MIN(ano) as MenorAno FROM Livro;
-SELECT MAX(ano) as MaxAno FROM Livro;
-
+SELECT MIN(Ano) AS MenorAno FROM Livro;
+SELECT MAX(Ano) AS MaiorAno FROM Livro;
 
 -- FUNÇÕES DE TEXTO
--- Retorna Quantidade de caracteres (Incluindo espaços)
-SELECT LEN('Kessia') AS TmnString;
-SELECT nome, LEN(nome) FROM Autor; 
 
+-- LEN
+-- Retorna qtde de caracteres (incluindo espaços)
+SELECT LEN('Késsia') AS TamanhoString;
+SELECT nome, LEN(nome) FROM Autor;
 
--- UPER (MAIUSCULO) / LOWER (minusculo)
+-- UPPER (maiúsculo) / LOWER (minúsculo)
 SELECT UPPER(nome) FROM Leitor;
-SELECT LOWER(Nome) FROM Leitor;
+SELECT LOWER(email) FROM Leitor;
 
---LEFT (Esquerda) RIGHT(Direita)
-SELECT * FROM Livro
+-- LEFT(esquerda) / RIGHT(direita)
+-- Pega as letras a esquerda e direita
+SELECT * FROM Livro;
 
-SELECT LEFT(Titulo, 5) as Primeiro5 FROM Livro;
-SELECT RIGHT(Titulo, 5) as Ultimos5 FROM Livro;
+SELECT LEFT(titulo, 5) AS Primeiros5 FROM Livro;
+SELECT RIGHT(titulo, 5) AS Ultimos5 FROM Livro;
 
 -- REPLACE
 -- Trocar caracteres
+SELECT * FROM Livro;
 
--- (Nome do atibuto, valorInicial, valorFinal)
-SELECT REPLACE(Titulo, 'Harry', 'Hermione');
-
--- CHARINDEX
--- Localiza a posição de alguma palavra (Considera somente a primeira)
-SELECT Titulo, CHARINDEX('de', Titulo) as PosiçãoTexto 
+-- REPLACE(nome_atributo, valorinicial, valorfinal)
+SELECT REPLACE(titulo, 'Harry', 'Hermione')
 FROM Livro;
 
--- CONCAT
--- Concatena textos(De um atributo com o outro)
+-- CHARINDEX
+-- Localizar a posição de alguma palavra
+
+SELECT titulo, CHARINDEX('uma', titulo) AS PosicaoTexto
+FROM Livro;
+
+-- CONCAT:
+-- Concatenar textos
 -- SELECT e.id_Emprestimo, le.nome, li.titulo
 
-SELECT CONCAT('Empréstimo ', e.id_Emprestimo, 'Leitor: ', le.nome, ' - Livro: ', li.titulo)
+SELECT CONCAT('Empréstimo ', e.id_Emprestimo, 
+' - Leitor: ', le.nome, ' - Livro: ', li.titulo)
 FROM Emprestimo e
 JOIN Leitor le ON le.id_Leitor = e.id_Leitor
-JOIN Livro li ON li.id_Autor = e.id_Emprestimo;
+JOIN Livro li ON li.id_Livro = e.id_Livro
 
--- SUBSTRING
+
+-- SUBSTRING 
 -- Mostra o texto conforme o tamanho passado
-SELECT SUBSTRING()
+SELECT SUBSTRING(titulo, 1, 10)
+FROM Livro;
 
+-- RTRIM(direita) / LTRIM(esquerda) / TRIM (dos dois lados)
+SELECT Nome, RTRIM(nome), LTRIM(nome), TRIM(nome)
+FROM Leitor;
 
+-- Funções de Data e Hora
 
--- GETDATE 
--- dia e horario atual
+-- GETDATE
+-- dia e horário atual
+-- DA INSTANCIA ONDE ESTÁ SENDO EXECUTADA
 SELECT GETDATE();
 
-SELECT GETUTCDATE();
-
-SELECT SYSDATETIMEOFFSET()
-AT TIME ZONE 'E. South America Standard Time';
-
-
-
+SELECT SYSDATETIMEOFFSET() 
+AT TIME ZONE 'E. South America Standard Time';	
